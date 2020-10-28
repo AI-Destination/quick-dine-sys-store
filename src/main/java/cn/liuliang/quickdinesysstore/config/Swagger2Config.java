@@ -22,7 +22,7 @@ public class Swagger2Config {
     public Docket adminApiConfig(){
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("adminApi")
+                .groupName("快捷餐饮店家后台接口文档")
                 .apiInfo(adminApiInfo())
                 .select()
                 //只显示admin路径下的页面

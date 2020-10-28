@@ -19,3 +19,11 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath*:/mapper/*.xml
+
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    keyid: LTAI4GFkxZbNBJS98q8AoLyC
+    keysecret: RPPjRwQ42KlpGpsGHHf8EYMVnl6t2R
+    #bucket可以在控制台创建，也可以使用java代码创建，注意先测试bucket是否已被占用
+    bucketname: quick-dine-oss-file
