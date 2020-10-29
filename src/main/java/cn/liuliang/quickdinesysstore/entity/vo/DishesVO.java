@@ -3,22 +3,21 @@ package cn.liuliang.quickdinesysstore.entity.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
 /**
  * @Package： cn.liuliang.quickdinesysstore.entity.vo
  * @Author： liuliang
- * @CreateTime： 2020/10/24 - 15:02
+ * @CreateTime： 2020/10/29 - 11:47
  * @Description：
  */
 @Data
-@EqualsAndHashCode()
-@ApiModel(value="DishesVO对象", description="")
-public class DishesVO{
+@ApiModel(value = "菜品信息vo", description = "")
+public class DishesVO {
 
-    private static final long serialVersionUID = 1L;
+    @ApiModelProperty(value = "ID")
+    private Long id;
 
     @ApiModelProperty(value = "菜名：唯一")
     private String dishesName;

@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.liuliang.quickdinesysstore.mapper.DishesMapper">
 
+
+    <resultMap id="dishes" type="cn.liuliang.quickdinesysstore.entity.Dishes">
+        <result property="id" javaType="long" column="dishes_id"/>
+        <result property="imageUrl" javaType="string" column="image_url"/>
+        <result property="dishesName" javaType="string" column="dishes_name"/>
+        <result property="price" javaType="java.math.BigDecimal" column="price"/>
+        <result property="dishesTypeId" javaType="long" column="dishes_type_id"/>
+        <result property="createTime" javaType="date" column="create_time"/>
+    </resultMap>
+    <select id="selectAll" resultMap="dishes">
+        SELECT
+            t_dishes.`id` AS dishes_id,
+            t_dishes.`image_url`,
+            t_dishes.`dishes_name`,
+            t_dishes.`price`,
+            t_dishes.`dishes_type_id`,
+            t_dishes.`brief_introduction`,
+            t_dishes.`create_time`
+        FROM t_dishes
+        LEFT JOIN t_dishes_type ON t_dishes_type.`id` = t_dishes.`dishes_type_id`
+        <where>
+            <if test="dishesQueryConditionVO.dishesName != null and dishesQueryConditionVO.dishesName != ''">
+                AND t_dishes.`dishes_name` LIKE CONCAT('%', #{dishesQueryConditionVO.dishesName}, '%')
+            </if>
+            <if test="dishesQueryConditionVO.dishesTypeName !=null and dishesQueryConditionVO.dishesTypeName !=''">
+                AND t_dishes_type.`type_name` = #{dishesQueryConditionVO.dishesTypeName}
+            </if>
+            <if test="dishesQueryConditionVO.price != null">
+                AND t_dishes.`price` = #{dishesQueryConditionVO.price}
+            </if>
+            <if test="dishesQueryConditionVO.createTime != null and dishesQueryConditionVO.createTime != ''">
+                AND DATE_FORMAT(t_dishes.`create_time`, '%Y-%m-%d') = DATE_FORMAT(#{dishesQueryConditionVO.createTime}, '%Y-%m-%d')
+            </if>
+        </where>
+    </select>
 </mapper>
