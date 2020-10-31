@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -17,7 +18,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode()
 @ApiModel(value="菜品信息DTO", description="")
-public class DishesDTO {
+public class DishesDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

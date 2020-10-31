@@ -1,9 +1,7 @@
 package cn.liuliang.quickdinesysstore.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,9 +28,5 @@ public class UserInfo extends BaseEntity {
 
     @ApiModelProperty(value = "优惠值：用户无优惠但有积分，会员有优惠（9折）而且还有积分")
     private Float discounts;
-
-    @ApiModelProperty(value = "积分：每十块抵一积分，积分可以在结账时抵扣，一积分抵扣一块钱（这个以后后台需要可设置话）")
-    private Integer integral;
-
 
 }

@@ -1,9 +1,7 @@
 package cn.liuliang.quickdinesysstore.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,6 +34,9 @@ public class UserLogin extends BaseEntity {
 
     @ApiModelProperty(value = "身份：关联身份信息表id")
     private Long userInfoId;
+
+    @ApiModelProperty(value = "积分：每十块抵一积分，积分可以在结账时抵扣，一积分抵扣一块钱（这个以后后台需要可设置话）")
+    private Integer integral;
 
 
 }

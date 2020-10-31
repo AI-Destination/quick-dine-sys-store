@@ -1,12 +1,10 @@
-package cn.liuliang.quickdinesysstore.entity;
+package cn.liuliang.quickdinesysstore.entity.dto;
 
-import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,12 +16,13 @@ import java.util.Date;
  * @since 2020-10-24
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("t_evaluate")
-@ApiModel(value="Evaluate对象", description="")
-public class Evaluate extends BaseEntity {
+@ApiModel(value="评价信息DTO", description="")
+public class EvaluateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "ID")
+    private Long id;
 
     @ApiModelProperty(value = "评价人姓名：（游客就是游客）")
     private String evaluateName;
@@ -53,7 +52,5 @@ public class Evaluate extends BaseEntity {
     private String opinion;
 
     @ApiModelProperty(value = "评价时间")
-    private Date evaluateTime;
-
-
+    private Date createTime;
 }

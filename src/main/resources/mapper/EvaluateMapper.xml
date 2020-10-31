@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.liuliang.quickdinesysstore.mapper.EvaluateMapper">
 
+
+    <resultMap id="evaluate" type="cn.liuliang.quickdinesysstore.entity.Evaluate">
+        <result property="id" javaType="long" column="id"/>
+        <result property="evaluateName" javaType="string" column="evaluate_name"/>
+        <result property="phone" javaType="string" column="phone"/>
+        <result property="identityType" javaType="string" column="identity_type"/>
+        <result property="storeName" javaType="string" column="store_name"/>
+        <result property="taste" javaType="integer" column="taste"/>
+        <result property="attitude" javaType="integer" column="attitude"/>
+        <result property="environment" javaType="integer" column="environment"/>
+        <result property="overallEvaluation" javaType="integer" column="overall_evaluation"/>
+        <result property="opinion" javaType="string" column="opinion"/>
+        <result property="createTime" javaType="date" column="create_time"/>
+    </resultMap>
+    <select id="selectAll" resultMap="evaluate">
+        SELECT
+            t_evaluate.`id`,
+            t_evaluate.`evaluate_name`,
+            t_evaluate.`phone`,
+            t_evaluate.`identity_type`,
+            t_evaluate.`store_name`,
+            t_evaluate.`taste`,
+            t_evaluate.`attitude`,
+            t_evaluate.`environment`,
+            t_evaluate.`overall_evaluation`,
+            t_evaluate.`opinion`,
+            t_evaluate.`create_time`
+        FROM t_evaluate
+        WHERE
+            t_evaluate.`store_name` = '鲲鹏膳'
+        <if test="evaluateQueryConditionVO.identityType != null and evaluateQueryConditionVO.identityType != ''">
+            AND t_evaluate.`identity_type` = #{evaluateQueryConditionVO.identityType}
+        </if>
+        <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 1">
+            AND t_evaluate.`taste` = #{evaluateQueryConditionVO.perValue}
+        </if>
+        <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 2">
+            AND t_evaluate.`attitude` = #{evaluateQueryConditionVO.perValue}
+        </if>
+        <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 3">
+            AND t_evaluate.`environment` = #{evaluateQueryConditionVO.perValue}
+        </if>
+        <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 4">
+            AND t_evaluate.`overall_evaluation` = #{evaluateQueryConditionVO.perValue}
+        </if>
+    </select>
 </mapper>
