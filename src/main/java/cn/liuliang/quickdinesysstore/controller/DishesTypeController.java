@@ -45,8 +45,15 @@ public class DishesTypeController {
 
     @ApiOperation(value = "删除菜品分类", notes = "删除菜品分类")
     @GetMapping("/delete")
-    public ResultDTO delete(@ApiParam("分类id") @RequestParam(value = "分类id", required = true) Long id) {
+    public ResultDTO delete(@ApiParam("分类id") @RequestParam(value = "id", required = true) Long id) {
         return dishesTypeService.delete(id);
     }
+
+    @ApiOperation(value = "根据id查询信息", notes = "根据id查询信息")
+    @GetMapping("/select-one")
+    public ResultDTO selectOne(@ApiParam("id") @RequestParam(value = "id", required = true) Long id) {
+        return dishesTypeService.selectOne(id);
+    }
+
 }
 

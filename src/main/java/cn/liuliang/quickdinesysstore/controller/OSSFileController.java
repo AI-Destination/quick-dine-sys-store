@@ -41,6 +41,7 @@ public class OSSFileController {
             e.printStackTrace();
         }
         uploadUrl = ossFileService.upload(inputStream, module, file.getOriginalFilename());
+        //uploadUrl = "https://quick-dine-oss-file.oss-cn-beijing.aliyuncs.com/cookingShow/2020/11/03/f6db2228-50df-4de3-99e8-71a87f9829a1.jpg";
         return ResultDTO.success().message("上传成功！").data("url", uploadUrl);
     }
 

@@ -3,6 +3,7 @@ package cn.liuliang.quickdinesysstore.controller;
 
 import cn.liuliang.quickdinesysstore.base.result.ResultDTO;
 import cn.liuliang.quickdinesysstore.entity.dto.CookingSkillImagesDTO;
+import cn.liuliang.quickdinesysstore.entity.vo.CookingSkillImagesVO;
 import cn.liuliang.quickdinesysstore.service.CookingSkillImagesService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,13 @@ public class CookingSkillImagesController {
     @ApiOperation(value = "添加厨艺秀照片", notes = "添加厨艺秀照片")
     @PostMapping("/add")
     public ResultDTO addCookingSkillImages(
-            @ApiParam("图片url数组") @RequestParam(value = "imageUrls", required = true) String[] imageUrls) {
-        return cookingSkillImagesService.addCookingSkillImages(imageUrls);
+            @ApiParam(value = "厨艺秀对象vo", required = true)
+            @RequestBody CookingSkillImagesVO cookingSkillImagesVO) {
+        return cookingSkillImagesService.addCookingSkillImages(cookingSkillImagesVO.getImageUrl());
     }
 
     @ApiOperation(value = "删除厨艺秀照片", notes = "删除厨艺秀照片")
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public ResultDTO delete(
             @ApiParam("图片id") @RequestParam(value = "id", required = true) Long id,
             @ApiParam("图片url") @RequestParam(value = "url", required = true) String url) {

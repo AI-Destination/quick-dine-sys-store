@@ -6,6 +6,7 @@ import cn.liuliang.quickdinesysstore.entity.dto.EvaluateDTO;
 import cn.liuliang.quickdinesysstore.entity.vo.EvaluateQueryConditionVO;
 import cn.liuliang.quickdinesysstore.mapper.EvaluateMapper;
 import cn.liuliang.quickdinesysstore.service.EvaluateService;
+import cn.liuliang.quickdinesysstore.utils.QueryUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -29,10 +30,16 @@ public class EvaluateServiceImpl extends ServiceImpl<EvaluateMapper, Evaluate> i
     @Autowired
     private EvaluateMapper evaluateMapper;
 
+    @Autowired
+    private QueryUtils queryUtils;
+
+
     @Override
     public ResultDTO selectAll(EvaluateQueryConditionVO evaluateQueryConditionVO, Integer pageNum, Integer pageSize) {
         // 构造分页
         Page<Evaluate> evaluatePage = new Page<>(pageNum, pageSize);
+        // 设置查询评论点店家名称
+        evaluateQueryConditionVO.setStoreName(queryUtils.getStoreName());
         // 执行查询
         List<Evaluate> evaluateList = evaluateMapper.selectAll(evaluatePage, evaluateQueryConditionVO);
         // 构造传输数据
@@ -42,6 +49,6 @@ public class EvaluateServiceImpl extends ServiceImpl<EvaluateMapper, Evaluate> i
             BeanUtils.copyProperties(evaluate, evaluateDTO);
             evaluateDTOList.add(evaluateDTO);
         });
-        return ResultDTO.success().data("total", evaluatePage.getTotal()).data("rows", evaluateDTOList);
+        return ResultDTO.success().data("total", Math.toIntExact(evaluatePage.getTotal())).data("rows", evaluateDTOList);
     }
 }

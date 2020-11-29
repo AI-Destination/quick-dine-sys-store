@@ -1,29 +1,26 @@
-package cn.liuliang.quickdinesysstore.entity;
+package cn.liuliang.quickdinesysstore.entity.dto;
 
-import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author j3_liuliang
- * @since 2020-10-24
+ * @Package： cn.liuliang.quickdinesysstore.entity.dto
+ * @Author： liuliang
+ * @CreateTime： 2020/10/31 - 16:32
+ * @Description：
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("t_employee")
-@ApiModel(value="Employee对象", description="")
-public class Employee extends BaseEntity {
+@ApiModel(value = "员工详细信息DTO", description = "")
+public class EmployeeDetailDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "ID")
+    private Long id;
 
     @ApiModelProperty(value = "姓名")
     private String employeeName;
@@ -31,11 +28,12 @@ public class Employee extends BaseEntity {
     @ApiModelProperty(value = "级别：关联级别表id")
     private Long levelId;
 
+    @ApiModelProperty(value = "级别信息对象")
+    private LevelDTO levelDTO;
+
     @ApiModelProperty(value = "密码")
     private String password;
 
     @ApiModelProperty(value = "入职时间")
     private Date entryTime;
-
-
 }

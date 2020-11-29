@@ -40,4 +40,12 @@ public interface DishesService extends IService<Dishes> {
      * @return
      */
     ResultDTO selectOne(Long id);
+
+    /**
+     * 根据菜品id和图片url删除菜品及对应图片
+     * @param id            id
+     * @param imgUrl        菜品图片url
+     * @return
+     */
+    ResultDTO delete(Long id, String imgUrl);
 }

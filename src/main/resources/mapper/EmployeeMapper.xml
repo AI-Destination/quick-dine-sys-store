@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.liuliang.quickdinesysstore.mapper.EmployeeMapper">
 
+    <resultMap id="employee" type="cn.liuliang.quickdinesysstore.entity.Employee">
+        <result property="id" javaType="long" column="employee_id"/>
+        <result property="employeeName" javaType="string" column="employee_name"/>
+        <result property="levelId" javaType="long" column="level_id"/>
+        <result property="entryTime" javaType="date" column="entry_time"/>
+    </resultMap>
+    <select id="selectAll" resultMap="employee">
+        SELECT
+        t_employee.`id` AS employee_id,
+        t_employee.`employee_name`,
+        t_level.`id` AS level_id,
+        t_employee.`entry_time`
+        FROM t_employee
+        LEFT JOIN t_level ON t_level.`id` = t_employee.`level_id`
+        <where>
+            <if test="employeeQueryVO.employeeName != null and employeeQueryVO.employeeName != ''">
+                AND t_employee.`employee_name` like CONCAT("%",#{employeeQueryVO.employeeName},"%")
+            </if>
+            <if test="employeeQueryVO.levelId != null">
+                AND t_level.`id` = #{employeeQueryVO.levelId}
+            </if>
+            <if test="employeeQueryVO.entryTime != null and employeeQueryVO.entryTime != ''">
+                AND DATE_FORMAT(t_employee.`entry_time`, '%Y-%m-%d') = DATE_FORMAT(#{employeeQueryVO.entryTime}, '%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY t_employee.`update_time` DESC
+    </select>
 </mapper>

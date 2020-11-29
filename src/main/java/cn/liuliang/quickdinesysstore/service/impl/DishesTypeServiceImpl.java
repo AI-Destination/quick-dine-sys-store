@@ -1,9 +1,11 @@
 package cn.liuliang.quickdinesysstore.service.impl;
 
+import cn.liuliang.quickdinesysstore.base.result.ResultCodeEnum;
 import cn.liuliang.quickdinesysstore.base.result.ResultDTO;
 import cn.liuliang.quickdinesysstore.entity.DishesType;
 import cn.liuliang.quickdinesysstore.entity.dto.DishesTypeDTO;
 import cn.liuliang.quickdinesysstore.entity.vo.DishesTypeVO;
+import cn.liuliang.quickdinesysstore.exception.QuickException;
 import cn.liuliang.quickdinesysstore.mapper.DishesTypeMapper;
 import cn.liuliang.quickdinesysstore.service.DishesTypeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -48,7 +50,7 @@ public class DishesTypeServiceImpl extends ServiceImpl<DishesTypeMapper, DishesT
         // 执行查询
         IPage<DishesType> dishesTypePageModel = dishesTypeMapper.selectPage(dishesTypePage, queryWrapper);
         // 获取总条数
-        long total = dishesTypePageModel.getTotal();
+        Integer total = Math.toIntExact(dishesTypePageModel.getTotal());
         // 数据转换及获取数据
         List<DishesTypeDTO> dishesTypeDTOList = new ArrayList<>();
         List<DishesType> records = dishesTypePageModel.getRecords();
@@ -63,29 +65,36 @@ public class DishesTypeServiceImpl extends ServiceImpl<DishesTypeMapper, DishesT
 
     @Override
     public ResultDTO addOrUpdateDishesType(DishesTypeVO dishesTypeVO) {
+        // 判断条件是否为空
+        if (StringUtils.isEmpty(dishesTypeVO.getTypeName())) {
+            // 为空，抛出自定义异常
+            throw new QuickException(ResultCodeEnum.PAEAMETER_IS_EMPTY);
+        }
+        // 构造插入对象
+        DishesType dishesType = new DishesType();
+        // 设置数据
+        BeanUtils.copyProperties(dishesTypeVO, dishesType);
         if (null == dishesTypeVO.getId()) {
             // 插入
-            // 构造插入对象
-            DishesType dishesType = new DishesType();
-            // 设置数据
-            dishesType.setTypeName(dishesTypeVO.getDishesName());
-            // 执行插入
-            dishesTypeMapper.insert(dishesType);
-        } else {
-            // 修改
-            // 先根据id查询数据
-            DishesType dishesType = dishesTypeMapper.selectById(dishesTypeVO.getId());
-            // 修改数据
-            dishesType.setTypeName(dishesTypeVO.getDishesName());
-            // 执行修改
-            dishesTypeMapper.updateById(dishesType);
+            return ResultDTO.success("data", dishesTypeMapper.insert(dishesType));
         }
-        return ResultDTO.success();
+        return ResultDTO.success("data", dishesTypeMapper.updateById(dishesType));
     }
 
     @Override
     public ResultDTO delete(Long id) {
         dishesTypeMapper.deleteById(id);
         return ResultDTO.success();
+    }
+
+    @Override
+    public ResultDTO selectOne(Long id) {
+        DishesType dishesType = dishesTypeMapper.selectById(id);
+        if (null == dishesType){
+            return ResultDTO.success("data", null);
+        }
+        DishesTypeDTO dishesTypeDTO = new DishesTypeDTO();
+        BeanUtils.copyProperties(dishesType, dishesTypeDTO);
+        return ResultDTO.success("data", dishesTypeDTO);
     }
 }

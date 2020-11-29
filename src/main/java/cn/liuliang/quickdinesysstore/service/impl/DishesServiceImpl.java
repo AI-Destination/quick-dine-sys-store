@@ -11,6 +11,7 @@ import cn.liuliang.quickdinesysstore.exception.QuickException;
 import cn.liuliang.quickdinesysstore.mapper.DishesMapper;
 import cn.liuliang.quickdinesysstore.mapper.DishesTypeMapper;
 import cn.liuliang.quickdinesysstore.service.DishesService;
+import cn.liuliang.quickdinesysstore.service.OSSFileService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,6 +39,9 @@ public class DishesServiceImpl extends ServiceImpl<DishesMapper, Dishes> impleme
     @Autowired
     private DishesTypeMapper dishesTypeMapper;
 
+    @Autowired
+    private OSSFileService ossFileService;
+
     @Override
     public ResultDTO addOrUpdate(DishesVO dishesVO) {
         // 判断条件是否为空
@@ -48,25 +52,21 @@ public class DishesServiceImpl extends ServiceImpl<DishesMapper, Dishes> impleme
             // 为空，抛出自定义异常
             throw new QuickException(ResultCodeEnum.PAEAMETER_IS_EMPTY);
         }
+        // 构造插入对象，并赋值
+        Dishes dishes = new Dishes();
+        BeanUtils.copyProperties(dishesVO, dishes);
         // 判断是插入还是修改
         if (null == dishesVO.getId()) {
             // 插入
-            // 构造插入对象，并赋值
-            Dishes dishes = new Dishes();
-            BeanUtils.copyProperties(dishesVO, dishes);
-            dishesMapper.insert(dishes);
-        } else {
-            // 修改
-            // 根据id查找数据
-            QueryWrapper<Dishes> dishesQueryWrapper = new QueryWrapper<>();
-            dishesQueryWrapper
-                    .select("dishes_name", "dishes_type_id", "brief_introduction", "image_url", "price")
-                    .eq("id", dishesVO.getId());
-            Dishes dishes = dishesMapper.selectOne(dishesQueryWrapper);
-            BeanUtils.copyProperties(dishesVO, dishes);
-            dishesMapper.updateById(dishes);
+            return ResultDTO.success("data", dishesMapper.insert(dishes));
         }
-        return ResultDTO.success();
+        // 根据id，查询出以前的imgUrl，然后删除它在OSS服务上
+        QueryWrapper<Dishes> dishesQueryWrapper = new QueryWrapper<>();
+        dishesQueryWrapper.select("image_url").eq("id", dishes.getId());
+        Dishes lodDishes = dishesMapper.selectOne(dishesQueryWrapper);
+        ossFileService.removeFile(lodDishes.getImageUrl());
+        // 再执行跟新
+        return ResultDTO.success("data", dishesMapper.updateById(dishes));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class DishesServiceImpl extends ServiceImpl<DishesMapper, Dishes> impleme
         // 执行条件查询
         List<Dishes> dishesList = dishesMapper.selectAll(dishesPage, dishesQueryConditionVO);
         // 获取相关数据
-        long total = dishesPage.getTotal();
+        Integer total = Math.toIntExact(dishesPage.getTotal());
         List<DishesDTO> dishesDTOList = selectDishesTypeName(dishesList);
         // 返回结果
         return ResultDTO.success().data("total", total).data("rows", dishesDTOList);
@@ -94,6 +94,15 @@ public class DishesServiceImpl extends ServiceImpl<DishesMapper, Dishes> impleme
         dishesTypeQueryWrapper.select("type_name").eq("id", dishesDTO.getDishesTypeId());
         dishesDTO.setDishesTypeName(dishesTypeMapper.selectOne(dishesTypeQueryWrapper).getTypeName());
         return ResultDTO.success().data("data", dishesDTO);
+    }
+
+    @Override
+    public ResultDTO delete(Long id, String imgUrl) {
+        // 删除菜品
+        dishesMapper.deleteById(id);
+        // 删除图片
+        ossFileService.removeFile(imgUrl);
+        return ResultDTO.success();
     }
 
     /**

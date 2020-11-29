@@ -1,9 +1,7 @@
 package cn.liuliang.quickdinesysstore.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
 import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -31,17 +29,13 @@ public class DiningTable extends BaseEntity {
     @ApiModelProperty(value = "餐桌名称：特色名称，有利于店面文怀")
     private String diningTableName;
 
-    @ApiModelProperty(value = "是否下单：1：下单，2，未下单；下单之后，要修改这个状态")
-    private Integer isOrder;
+    @ApiModelProperty(value = "状态：1空闲，2下单，3预定")
+    private Integer state;
 
     @ApiModelProperty(value = "就餐人数")
     private Integer eatNumberPeople;
 
-    @ApiModelProperty(value = "是否预定：1：预定，2，未预定；预定之后不可在被他人使用")
-    private Integer isReserve;
-
-    @ApiModelProperty(value = "是否空闲：1：空闲，2，不空闲；空闲餐桌才可应就餐")
-    private Integer isLeisure;
-
+    @ApiModelProperty(value = "预定人id，就是登录的用户id")
+    private Long reserveUserId;
 
 }

@@ -36,5 +36,6 @@
                 AND DATE_FORMAT(t_dishes.`create_time`, '%Y-%m-%d') = DATE_FORMAT(#{dishesQueryConditionVO.createTime}, '%Y-%m-%d')
             </if>
         </where>
+        ORDER BY t_dishes.`update_time` DESC
     </select>
 </mapper>

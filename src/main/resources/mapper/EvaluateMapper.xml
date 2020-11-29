@@ -31,7 +31,7 @@
             t_evaluate.`create_time`
         FROM t_evaluate
         WHERE
-            t_evaluate.`store_name` = '鲲鹏膳'
+            t_evaluate.`store_name` = #{evaluateQueryConditionVO.storeName}
         <if test="evaluateQueryConditionVO.identityType != null and evaluateQueryConditionVO.identityType != ''">
             AND t_evaluate.`identity_type` = #{evaluateQueryConditionVO.identityType}
         </if>
@@ -47,5 +47,9 @@
         <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 4">
             AND t_evaluate.`overall_evaluation` = #{evaluateQueryConditionVO.perValue}
         </if>
+        <if test="evaluateQueryConditionVO.evaluateTime != null and evaluateQueryConditionVO.evaluateTime != ''">
+            AND DATE_FORMAT(t_evaluate.`create_time`, '%Y-%m-%d') = DATE_FORMAT(#{evaluateQueryConditionVO.evaluateTime}, '%Y-%m-%d')
+        </if>
+        ORDER BY t_evaluate.`update_time` DESC
     </select>
 </mapper>

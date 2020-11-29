@@ -28,6 +28,7 @@ public class DishesController {
     private DishesService dishesService;
 
     @ApiOperation(value = "根据条件分页获取所有菜品信息", notes = "根据条件分页获取所有菜品信息")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功！", response = DishesDTO.class)})
     @GetMapping("/select-all")
     public ResultDTO selectAll(
             DishesQueryConditionVO dishesQueryConditionVO,
@@ -53,9 +54,10 @@ public class DishesController {
 
     @ApiOperation(value = "根据id删除菜品", notes = "根据id删除菜品")
     @GetMapping("/delete")
-    public ResultDTO delete(@ApiParam("菜品id") @RequestParam(value = "id", required = true) Long id) {
-        dishesService.removeById(id);
-        return ResultDTO.success();
+    public ResultDTO delete(
+            @ApiParam("菜品id") @RequestParam(value = "id", required = true) Long id,
+            @ApiParam("菜品照片url") @RequestParam(value = "imgUrl", required = true) String imgUrl) {
+        return dishesService.delete(id,imgUrl);
     }
 
 }

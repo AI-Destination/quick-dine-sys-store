@@ -17,7 +17,7 @@ public class DishesTypeVO {
     @ApiModelProperty(value = "ID")
     private Long id;
 
-    @ApiModelProperty(value = "菜名：唯一")
-    private String dishesName;
+    @ApiModelProperty(value = "分类名称：唯一")
+    private String typeName;
 
 }

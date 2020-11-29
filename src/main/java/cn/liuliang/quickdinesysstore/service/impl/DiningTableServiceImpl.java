@@ -8,7 +8,6 @@ import cn.liuliang.quickdinesysstore.entity.vo.DiningTableVO;
 import cn.liuliang.quickdinesysstore.exception.QuickException;
 import cn.liuliang.quickdinesysstore.mapper.DiningTableMapper;
 import cn.liuliang.quickdinesysstore.service.DiningTableService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,26 +40,16 @@ public class DiningTableServiceImpl extends ServiceImpl<DiningTableMapper, Dinin
                 || StringUtils.isEmpty(diningTableVO.getDiningTableName())) {
             throw new QuickException(ResultCodeEnum.PAEAMETER_IS_EMPTY);
         }
+        // 构造数据
+        DiningTable diningTable = new DiningTable();
+        BeanUtils.copyProperties(diningTableVO, diningTable);
         // 判断是添加还是修改
         if (null == diningTableVO.getId()) {
             // 插入
-            // 构造数据
-            DiningTable diningTable = new DiningTable();
-            BeanUtils.copyProperties(diningTableVO, diningTable);
-            // 插入
-            diningTableMapper.insert(diningTable);
-        } else {
-            // 修改
-            // 根据id查询需要的数据
-            QueryWrapper<DiningTable> diningTableQueryWrapper = new QueryWrapper<>();
-            diningTableQueryWrapper
-                    .select("dining_table_number", "dining_table_name")
-                    .eq("id", diningTableVO.getId());
-            DiningTable diningTable = diningTableMapper.selectOne(diningTableQueryWrapper);
-            BeanUtils.copyProperties(diningTableVO, diningTable);
-            diningTableMapper.updateById(diningTable);
+            return ResultDTO.success("data", diningTableMapper.insert(diningTable));
         }
-        return ResultDTO.success();
+        // 修改
+        return ResultDTO.success("data", diningTableMapper.updateById(diningTable));
     }
 
     @Override
@@ -71,7 +60,7 @@ public class DiningTableServiceImpl extends ServiceImpl<DiningTableMapper, Dinin
         IPage<DiningTable> diningTablePageModel = diningTableMapper.selectPage(diningTablePage, null);
         // 构造返回数据
         List<DiningTable> diningTableList = diningTablePageModel.getRecords();
-        long total = diningTablePageModel.getTotal();
+        Integer total = Math.toIntExact(diningTablePageModel.getTotal());
         return ResultDTO.success().data("total", total).data("rows", diningTableList);
     }
 

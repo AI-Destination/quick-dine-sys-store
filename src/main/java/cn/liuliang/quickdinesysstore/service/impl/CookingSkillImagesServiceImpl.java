@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +42,7 @@ public class CookingSkillImagesServiceImpl extends ServiceImpl<CookingSkillImage
         IPage<CookingSkillImages> cookingSkillImagesPageModel = cookingSkillImagesMapper.selectPage(cookingSkillImagesPage, null);
         // 获取分页数据和总条数
         List<CookingSkillImages> records = cookingSkillImagesPageModel.getRecords();
-        long total = cookingSkillImagesPageModel.getTotal();
+        Integer total = Math.toIntExact(cookingSkillImagesPageModel.getTotal());
         // 转化数据传输对象
         List<CookingSkillImagesDTO> cookingSkillImagesDTOList = new ArrayList<>(records.size());
         records.forEach(CookingSkillImages -> {
@@ -52,17 +51,15 @@ public class CookingSkillImagesServiceImpl extends ServiceImpl<CookingSkillImage
             cookingSkillImagesDTOList.add(cookingSkillImagesDTO);
         });
         // 返回结果
-        return ResultDTO.success().data("tital", total).data("rows", cookingSkillImagesDTOList);
+        return ResultDTO.success().data("total", total).data("rows", cookingSkillImagesDTOList);
     }
 
     @Override
-    public ResultDTO addCookingSkillImages(String[] imageUrls) {
-        // 遍历url数组，依次插入数据库中
-        Arrays.asList(imageUrls).forEach(imageUrl -> {
-            CookingSkillImages cookingSkillImages = new CookingSkillImages();
-            cookingSkillImages.setImageUrl(imageUrl);
-            cookingSkillImagesMapper.insert(cookingSkillImages);
-        });
+    public ResultDTO addCookingSkillImages(String url) {
+        //插入数据库中
+        CookingSkillImages cookingSkillImages = new CookingSkillImages();
+        cookingSkillImages.setImageUrl(url);
+        cookingSkillImagesMapper.insert(cookingSkillImages);
         return ResultDTO.success();
     }
 

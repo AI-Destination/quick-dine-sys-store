@@ -24,10 +24,10 @@ public interface CookingSkillImagesService extends IService<CookingSkillImages> 
 
     /**
      * 添加图片url数组
-     * @param imageUrls 图片url数组
+     * @param url 图片url数组
      * @return
      */
-    ResultDTO addCookingSkillImages(String[] imageUrls);
+    ResultDTO addCookingSkillImages(String url);
 
     /**
      * 删除图片

@@ -37,4 +37,11 @@ public interface DishesTypeService extends IService<DishesType> {
      * @return
      */
     ResultDTO delete(Long id);
+
+    /**
+     * 根据id查询信息
+     * @param id
+     * @return
+     */
+    ResultDTO selectOne(Long id);
 }

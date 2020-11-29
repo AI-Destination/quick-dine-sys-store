@@ -2,4 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.liuliang.quickdinesysstore.mapper.OrderMapper">
 
+
+    <resultMap id="order" type="cn.liuliang.quickdinesysstore.entity.Order">
+        <result property="id" javaType="long" column="id"/>
+        <result property="storeName" javaType="string" column="store_name"/>
+        <result property="diningTableNumber" javaType="string" column="dining_table_number"/>
+        <result property="orderDishesPeopleName" javaType="string" column="order_dishes_people_name"/>
+        <result property="orderDishesPeoplePhone" javaType="string" column="order_dishes_people_phone"/>
+        <result property="foods" javaType="long" column="foods"/>
+        <result property="money" javaType="java.math.BigDecimal" column="money"/>
+        <result property="integral" javaType="integer" column="integral"/>
+        <result property="isSettleAccounts" javaType="integer" column="is_settle_accounts"/>
+        <result property="orderTime" javaType="date" column="order_time"/>
+        <result property="settleAccountsTime" javaType="date" column="settle_accounts_time"/>
+    </resultMap>
+    <select id="selectAll" resultMap="order">
+        SELECT
+            t_order.`id`,
+            t_order.`store_name`,
+            t_order.`dining_table_number`,
+            t_order.`order_dishes_people_name`,
+            t_order.`order_dishes_people_phone`,
+            t_order.`foods`,
+            t_order.`money`,
+            t_order.`integral`,
+            t_order.`is_settle_accounts`,
+            t_order.`order_time`,
+            t_order.`settle_accounts_time`
+        FROM t_order
+        <where>
+                AND t_order.`store_name` = #{orderQueryConditionVO.storeName}
+            <if test="orderQueryConditionVO.diningTableNumber != null and orderQueryConditionVO.diningTableNumber != ''">
+                AND t_order.`dining_table_number` = #{orderQueryConditionVO.diningTableNumber}
+            </if>
+            <if test="orderQueryConditionVO.isSettleAccounts != null">
+                AND t_order.`is_settle_accounts` = #{orderQueryConditionVO.isSettleAccounts}
+            </if>
+            <if test="orderQueryConditionVO.orderDishesPeoplePhone != null and orderQueryConditionVO.orderDishesPeoplePhone != ''">
+                AND t_order.`order_dishes_people_phone` = #{orderQueryConditionVO.orderDishesPeoplePhone}
+            </if>
+            <if test="orderQueryConditionVO.money != null">
+                AND t_order.`money` = #{orderQueryConditionVO.money}
+            </if>
+            <if test="orderQueryConditionVO.orderTime != null and orderQueryConditionVO.orderTime != ''">
+                AND DATE_FORMAT(t_order.`order_time`, '%Y-%m-%d') = DATE_FORMAT(#{orderQueryConditionVO.orderTime}, '%Y-%m-%d')
+            </if>
+        </where>
+        ORDER BY t_order.`update_time` DESC
+    </select>
+
+    <resultMap id="alreadyOrderDishesDTO" type="cn.liuliang.quickdinesysstore.entity.dto.AlreadyOrderDishesDTO">
+        <result property="id" javaType="long" column="id"/>
+        <result property="dishesId" javaType="long" column="dishes_id"/>
+        <result property="imageUrl" javaType="string" column="image_url"/>
+        <result property="dishesName" javaType="string" column="dishes_name"/>
+        <result property="price" javaType="java.math.BigDecimal" column="price"/>
+        <result property="number" javaType="integer" column="number"/>
+    </resultMap>
+    <select id="selectAlreadyOrderDishesByFoods" resultMap="alreadyOrderDishesDTO">
+        SELECT
+            t_already_order_dishes.`id`,
+            t_already_order_dishes.`dishes_id`,
+            t_dishes.`image_url`,
+            t_dishes.`dishes_name`,
+            t_dishes.`price`,
+            t_already_order_dishes.`number`
+        FROM
+        t_already_order_dishes
+        LEFT JOIN t_dishes ON t_dishes.`id` = t_already_order_dishes.`dishes_id`
+        WHERE t_already_order_dishes.`id` = #{foods}
+    </select>
+
+    <delete id="deleteAlreadyOrderDishes">
+        DELETE FROM t_already_order_dishes WHERE id = #{foods}
+    </delete>
 </mapper>

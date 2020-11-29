@@ -1,5 +1,6 @@
 package cn.liuliang.quickdinesysstore.entity.vo;
 
+import cn.liuliang.quickdinesysstore.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value="评论查询条件vo", description="")
-public class EvaluateQueryConditionVO {
+public class EvaluateQueryConditionVO extends BaseVO {
 
     @ApiModelProperty(value = "评价人身份：游客，用户，会员")
     private String identityType;

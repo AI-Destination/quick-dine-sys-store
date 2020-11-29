@@ -1,30 +1,26 @@
-package cn.liuliang.quickdinesysstore.entity;
+package cn.liuliang.quickdinesysstore.entity.dto;
 
-import cn.liuliang.quickdinesysstore.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author j3_liuliang
- * @since 2020-10-24
+ * @Package： cn.liuliang.quickdinesysstore.entity.dto
+ * @Author： liuliang
+ * @CreateTime： 2020/10/30 - 8:53
+ * @Description：
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("t_order")
-@ApiModel(value="Order对象", description="")
-public class Order extends BaseEntity {
+@ApiModel(value="订单信息DTO", description="")
+public class OrderDTO implements Serializable {
+    private static final long serialVersionUID=1L;
 
-    private static final long serialVersionUID = 1L;
+    @ApiModelProperty(value = "ID")
+    private Long id;
 
     @ApiModelProperty(value = "店家名称：唯一")
     private String storeName;
@@ -50,17 +46,21 @@ public class Order extends BaseEntity {
     @ApiModelProperty(value = "金额来源描述（优惠率，积分抵扣）")
     private String description;
 
+    @ApiModelProperty(value = "优惠率")
+    private String discountRate;
+
+    @ApiModelProperty(value = "积分抵扣")
+    private String pointsDeduction;
+
     @ApiModelProperty(value = "积分：每十块抵一积分，积分可以在结账时抵扣，一积分抵扣一块钱（这个以后后台需要可设置话）")
     private Integer integral;
 
     @ApiModelProperty(value = "是否结账：1：结账，2：未结账")
     private Integer isSettleAccounts;
 
-    @ApiModelProperty(value = "下单时间")
+    @ApiModelProperty(value = "是否结账")
     private Date orderTime;
 
     @ApiModelProperty(value = "结账时间")
     private Date settleAccountsTime;
-
-
 }
