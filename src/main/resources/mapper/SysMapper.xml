@@ -24,22 +24,22 @@
                 AND user_info_id = '1321703592666603521'
             </if>
             <if test="per == 2 and level == 1">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; create_time
-                AND create_time &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(create_time, '%Y-%m-%d')
+                AND STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
             </if>
             <if test="per == 2 and level == 2">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; create_time
-                AND create_time &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(create_time, '%Y-%m-%d')
+                AND STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND user_info_id = '1321703619577257986'
             </if>
             <if test="per == 2 and level == 3">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; create_time
-                AND create_time &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(create_time, '%Y-%m-%d')
+                AND STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND user_info_id = '1321703632667680770'
             </if>
             <if test="per == 2 and level == 4">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; create_time
-                AND create_time &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(create_time, '%Y-%m-%d')
+                AND STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND user_info_id = '1321703592666603521'
             </if>
             <if test="weekPer != 8">
@@ -74,22 +74,22 @@
                 AND t_user_login.`user_info_id` = '1321703592666603521'
             </if>
             <if test="per == 2 and level == 1">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; t_order.`create_time`
-                AND t_order.`create_time` &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d')
+                AND STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
             </if>
             <if test="per == 2 and level == 2">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; t_order.`create_time`
-                AND t_order.`create_time` &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d')
+                AND STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND t_user_login.`user_info_id`= '1321703619577257986'
             </if>
             <if test="per == 2 and level == 3">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; t_order.`create_time`
-                AND t_order.`create_time` &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d')
+                AND STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND t_user_login.`user_info_id` = '1321703632667680770'
             </if>
             <if test="per == 2 and level == 4">
-                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt; t_order.`create_time`
-                AND t_order.`create_time` &lt; STR_TO_DATE(#{endTime}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{startTime}, '%Y-%m-%d') &lt;= STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d')
+                AND STR_TO_DATE(t_order.`create_time`, '%Y-%m-%d') &lt;= STR_TO_DATE(#{endTime}, '%Y-%m-%d')
                 AND t_user_login.`user_info_id` = '1321703592666603521'
             </if>
             <if test="weekPer != 8">

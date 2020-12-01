@@ -15,8 +15,8 @@ import lombok.Data;
 @ApiModel(value="评论查询条件vo", description="")
 public class EvaluateQueryConditionVO extends BaseVO {
 
-    @ApiModelProperty(value = "评价人身份：游客，用户，会员")
-    private String identityType;
+    @ApiModelProperty(value = "评价人身份id")
+    private Long userInfoId;
 
     @ApiModelProperty(value = "标识：1，菜品口味；2，服务态度；3，店内环境；4，总体评价")
     private Integer per;

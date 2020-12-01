@@ -7,7 +7,7 @@
         <result property="id" javaType="long" column="id"/>
         <result property="evaluateName" javaType="string" column="evaluate_name"/>
         <result property="phone" javaType="string" column="phone"/>
-        <result property="identityType" javaType="string" column="identity_type"/>
+        <result property="userInfoId" javaType="long" column="user_info_id"/>
         <result property="storeName" javaType="string" column="store_name"/>
         <result property="taste" javaType="integer" column="taste"/>
         <result property="attitude" javaType="integer" column="attitude"/>
@@ -21,7 +21,7 @@
             t_evaluate.`id`,
             t_evaluate.`evaluate_name`,
             t_evaluate.`phone`,
-            t_evaluate.`identity_type`,
+            t_evaluate.`user_info_id`,
             t_evaluate.`store_name`,
             t_evaluate.`taste`,
             t_evaluate.`attitude`,
@@ -32,8 +32,8 @@
         FROM t_evaluate
         WHERE
             t_evaluate.`store_name` = #{evaluateQueryConditionVO.storeName}
-        <if test="evaluateQueryConditionVO.identityType != null and evaluateQueryConditionVO.identityType != ''">
-            AND t_evaluate.`identity_type` = #{evaluateQueryConditionVO.identityType}
+        <if test="evaluateQueryConditionVO.userInfoId != null and evaluateQueryConditionVO.userInfoId != ''">
+            AND t_evaluate.`user_info_id` = #{evaluateQueryConditionVO.userInfoId}
         </if>
         <if test="evaluateQueryConditionVO.per != null and evaluateQueryConditionVO.per == 1">
             AND t_evaluate.`taste` = #{evaluateQueryConditionVO.perValue}

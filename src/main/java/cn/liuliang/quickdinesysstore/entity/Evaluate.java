@@ -31,8 +31,8 @@ public class Evaluate extends BaseEntity {
     @ApiModelProperty(value = "评价人账号：（游客就为空）")
     private String phone;
 
-    @ApiModelProperty(value = "评价人身份：（游客就写游客）")
-    private String identityType;
+    @ApiModelProperty(value = "评价人身份id")
+    private Long userInfoId;
 
     @ApiModelProperty(value = "店家名称")
     private String storeName;

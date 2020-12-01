@@ -50,11 +50,11 @@ public class OrderController {
         return orderService.delete(id);
     }
 
-    @ApiOperation(value = "根据订单id进行结账", notes = "根据订单id进行结账")
+/*    @ApiOperation(value = "根据订单id进行结账", notes = "根据订单id进行结账")
     @GetMapping("/bill-please")
     public ResultDTO billPlease(@ApiParam("订单id") @RequestParam(value = "id", required = true) Long id){
         return orderService.billPlease(id);
-    }
+    }*/
 
 
 }
