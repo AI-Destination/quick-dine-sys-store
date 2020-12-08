@@ -22,9 +22,9 @@ mybatis-plus:
 
 aliyun:
   oss:
-    endpoint: oss-cn-beijing.aliyuncs.com
-    keyid: LTAI4GFkxZbNBJS98q8AoLyC
-    keysecret: RPPjRwQ42KlpGpsGHHf8EYMVnl6t2R
+    endpoint: #你自己的配置
+    keyid: #你自己的配置
+    keysecret: #你自己的配置
     #bucket可以在控制台创建，也可以使用java代码创建，注意先测试bucket是否已被占用
     bucketname: quick-dine-oss-file
 
